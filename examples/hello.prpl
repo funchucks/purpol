@@ -1,1 +1,31 @@
-hello 1 print
+# hash mark for comment to end of line
+
+# "var" makes a line of variables
+var a b c i arr
+
+# lexically very simple, just split lines on spaces
+# normally, each line defines a function, 1st token is its name
+init 10 a ! 5 b ! pi c ! 0 i ! 16 alloc arr ! #function for initializing vars
+
+# @ is load from heap address, ! is store to heap address
+# convenience function for accessing the 16 element array we allocate in "init"
+arr@ arr @ + @
+arr! arr @ + !
+
+# print the array at arr
+# . outputs a number off the top of the stack
+# loop only jumps to the start of the function, so loop functions are needed
+# selection is by conditional loop and conditional return (and skip)
+printarr.loop over over <= retif dup arr@ . inc loop 
+printarr 16 0 printarr.loop drop drop 
+
+#initialize the array with a countdown
+countdown.loop over over <= retif i @ dup dec i ! over arr! inc loop
+countdown 16 i ! 16 0 countdown.loop drop drop
+arrinit countdown
+
+hello init arrinit a @ b @ + . c @ . printarr # last function is main
+
+#arrinit 16 0 arr! 15 1 arr! 14 2 arr! 13 3 arr!
+#countdown dup . dec dup 1 >= loopif drop
+#countfrom10 10 countdown
